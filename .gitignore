@@ -31,3 +31,5 @@ dist/*
 playwright-tests/playwright-screenshots/*
 playwright-tests/.auth/*
 playwright-screenshots
+
+backend/model-service/__pycache__/*
