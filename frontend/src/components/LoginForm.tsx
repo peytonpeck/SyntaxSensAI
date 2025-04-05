@@ -14,10 +14,11 @@ import type { FC } from "react";
 
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Api } from "@/api";
 import { Loader2 } from "lucide-react";
 import { accountQueryOptionsKey } from "@/queryOptions/accountQueryOptions";
+import { LOCAL_STORAGE_TOKEN_KEY } from "@/lib/constants";
 
 const { fieldContext, formContext } = createFormHookContexts();
 
@@ -43,10 +44,10 @@ export const LoginForm: FC = ({
     mutationFn: Api.Authentication.login,
     onSuccess: (user) => {
       if (user.token) {
-        localStorage.setItem("token", user.token);
+        localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, user.token);
+        queryClient.setQueryData([accountQueryOptionsKey], user);
+        navigate({ to: "/app/dashboard" });
       }
-      queryClient.setQueryData([accountQueryOptionsKey], user);
-      navigate({ to: "/app/dashboard" });
     },
   });
   const form = useAppForm({

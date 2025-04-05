@@ -15,11 +15,6 @@ import { Link } from "@tanstack/react-router";
 
 const items = [
   {
-    title: "Home",
-    url: "/app/home",
-    icon: Home,
-  },
-  {
     title: "Dashboard",
     url: "/app/dashboard",
     icon: Home,
