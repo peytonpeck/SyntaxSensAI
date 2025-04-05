@@ -3,6 +3,7 @@ package com.syntaxsensai.backendservice.service;
 import com.syntaxsensai.backendservice.dto.LoginDTO;
 import com.syntaxsensai.backendservice.dto.RegisterDTO;
 import com.syntaxsensai.backendservice.dto.UserDTO;
+import com.syntaxsensai.backendservice.exception.SyntaxSensaiEmailAlreadyUsedException;
 import com.syntaxsensai.backendservice.exception.SyntaxSensaiInvalidCredentialsException;
 import com.syntaxsensai.backendservice.mapper.UserMapper;
 import com.syntaxsensai.backendservice.model.User;
@@ -40,11 +41,15 @@ public class AuthenticationService {
     }
     
     public UserDTO signup(RegisterDTO input) {
+        if (userRepository.existsByEmail(input.getEmail())) {
+            throw new SyntaxSensaiEmailAlreadyUsedException();
+        }
+        
         User user = new User(input.getFirstName(), input.getLastName(), input.getEmail(), passwordEncoder.encode(input.getPassword()));
         
-        User result = userRepository.save(user);
+        userRepository.save(user);
         
-        return userMapper.toDTO(result);
+        return userMapper.toDTO(user);
     }
     
     public UserDTO authenticate(LoginDTO input) throws SyntaxSensaiInvalidCredentialsException {

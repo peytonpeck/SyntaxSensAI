@@ -1,6 +1,9 @@
 package com.syntaxsensai.backendservice.configuration;
 
+import com.syntaxsensai.backendservice.exception.SyntaxSensaiEmailAlreadyUsedException;
 import com.syntaxsensai.backendservice.exception.SyntaxSensaiInvalidCredentialsException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,9 +13,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     
-    @ExceptionHandler(SyntaxSensaiInvalidCredentialsException.class)
-    public ResponseEntity<String> handleBadCredentials(SyntaxSensaiInvalidCredentialsException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid email or password");
+    @ExceptionHandler({SyntaxSensaiInvalidCredentialsException.class, SyntaxSensaiEmailAlreadyUsedException.class})
+    public ResponseEntity<String> handleBadCredentials(Exception ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
     
     // Handle generic validation errors

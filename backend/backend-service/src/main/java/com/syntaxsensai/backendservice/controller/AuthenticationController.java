@@ -6,6 +6,7 @@ import com.syntaxsensai.backendservice.dto.UserDTO;
 import com.syntaxsensai.backendservice.model.User;
 import com.syntaxsensai.backendservice.service.AuthenticationService;
 import com.syntaxsensai.backendservice.service.JwtService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,12 +23,12 @@ public class AuthenticationController {
     }
     
     @PostMapping("/signup")
-    public ResponseEntity<UserDTO> register(@RequestBody RegisterDTO registerDTO) {
+    public ResponseEntity<UserDTO> register(@RequestBody @Valid RegisterDTO registerDTO) {
         return ResponseEntity.ok(authenticationService.signup(registerDTO));
     }
     
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> authenticate(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<UserDTO> authenticate(@RequestBody @Valid LoginDTO loginDTO) {
         return ResponseEntity.ok(authenticationService.authenticate(loginDTO));
     }
 }
