@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -17,7 +18,5 @@ public class UserDTO {
     private String email;
     private String firstName;
     private String lastName;
-    
-    @Setter
     private String token;
 }

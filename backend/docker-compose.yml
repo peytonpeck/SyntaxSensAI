@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:latest
-    container_name: sytaxsensai-postgres
+    container_name: sytax-sensai-postgres
     environment:
       POSTGRES_USER: syntaxsensai
       POSTGRES_PASSWORD: dbpassword
@@ -19,7 +19,7 @@ services:
     build:
       context: .
       dockerfile: ./backend-service/Dockerfile
-    container_name: syntaxsensai-backend-service
+    container_name: syntax-sensai-backend-service
     depends_on:
       - postgres
     environment:
@@ -29,6 +29,25 @@ services:
       SERVER_PORT: 7012
     ports:
       - "7012:7012"
+    networks:
+      - my-network
+    volumes:
+      - .:/app  # Mount the source code directory into the container
+  spring-boot-app-debug:
+    build:
+      context: .
+      dockerfile: ./backend-service/debug.Dockerfile
+    container_name: syntax-sensai-backend-service-debug
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sytaxsensai-db
+      SPRING_DATASOURCE_USERNAME: syntaxsensai
+      SPRING_DATASOURCE_PASSWORD: dbpassword
+      SERVER_PORT: 7012
+    ports:
+      - "7012:7012"
+      - "5005:5005"
     networks:
       - my-network
     volumes:

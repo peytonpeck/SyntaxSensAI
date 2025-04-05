@@ -123,6 +123,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>syntax-sensai-backend-service</finalName>
     </build>
 
 </project>
