@@ -2,13 +2,12 @@ package com.syntaxsensai.backendservice.configuration;
 
 import com.syntaxsensai.backendservice.exception.SyntaxSensaiEmailAlreadyUsedException;
 import com.syntaxsensai.backendservice.exception.SyntaxSensaiInvalidCredentialsException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -22,6 +21,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleValidation(MethodArgumentNotValidException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Validation error: " + ex.getMessage());
+    }
+    
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex) {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     
     // Fallback for all other exceptions

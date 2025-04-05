@@ -8,15 +8,11 @@ import com.syntaxsensai.backendservice.exception.SyntaxSensaiInvalidCredentialsE
 import com.syntaxsensai.backendservice.mapper.UserMapper;
 import com.syntaxsensai.backendservice.model.User;
 import com.syntaxsensai.backendservice.repository.UserRepository;
-import jakarta.annotation.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class AuthenticationService {
@@ -40,7 +36,7 @@ public class AuthenticationService {
         this.jwtService = jwtService;
     }
     
-    public UserDTO signup(RegisterDTO input) {
+    public UserDTO register(RegisterDTO input) {
         if (userRepository.existsByEmail(input.getEmail())) {
             throw new SyntaxSensaiEmailAlreadyUsedException();
         }
@@ -62,7 +58,8 @@ public class AuthenticationService {
             );
         } catch (AuthenticationException e) {
             throw new SyntaxSensaiInvalidCredentialsException("Invalid email or password.");
-        };
+        }
+        ;
         
         User authenticatedUser = userRepository.findByEmail(input.getEmail()).orElse(null);
         

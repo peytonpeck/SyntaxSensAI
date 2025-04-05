@@ -3,9 +3,7 @@ package com.syntaxsensai.backendservice.controller;
 import com.syntaxsensai.backendservice.dto.LoginDTO;
 import com.syntaxsensai.backendservice.dto.RegisterDTO;
 import com.syntaxsensai.backendservice.dto.UserDTO;
-import com.syntaxsensai.backendservice.model.User;
 import com.syntaxsensai.backendservice.service.AuthenticationService;
-import com.syntaxsensai.backendservice.service.JwtService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RestController
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
@@ -22,9 +20,9 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
     
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public ResponseEntity<UserDTO> register(@RequestBody @Valid RegisterDTO registerDTO) {
-        return ResponseEntity.ok(authenticationService.signup(registerDTO));
+        return ResponseEntity.ok(authenticationService.register(registerDTO));
     }
     
     @PostMapping("/login")

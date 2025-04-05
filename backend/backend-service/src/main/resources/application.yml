@@ -3,12 +3,15 @@ security:
     secret-key: "1531cdc32ee27f34bd19c6c0bbc7b0eef44811abad558b7f2de58442b8780807"
     expiration-time: 3600000
 spring:
+  web:
+    resources:
+      add-mappings: false # don't serve static resources, prevents 500 errors when users call non-existant endpoints
   jpa:
     hibernate:
       ddl-auto: "update"
     show-sql: true
     properties:
-        hibernate:
-          dialect: "org.hibernate.dialect.PostgreSQLDialect"
+      hibernate:
+        dialect: "org.hibernate.dialect.PostgreSQLDialect"
 server:
   port: 7012
