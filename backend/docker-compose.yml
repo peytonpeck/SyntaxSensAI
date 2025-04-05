@@ -18,7 +18,7 @@ services:
   spring-boot-app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./backend-service/Dockerfile
     container_name: syntaxsensai-backend-service
     depends_on:
       - postgres
@@ -31,7 +31,7 @@ services:
     networks:
       - my-network
     volumes:
-      - .:/app/src  # Mount the source code directory into the container
+      - .:/app  # Mount the source code directory into the container
 
 networks:
   my-network:

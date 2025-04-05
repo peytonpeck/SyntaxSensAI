@@ -1,4 +1,4 @@
-package com.syntaxsenai.backendservice;
+package com.syntaxsensai.backendservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

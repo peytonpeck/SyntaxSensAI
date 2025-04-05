@@ -2,7 +2,7 @@
 FROM openjdk:17-jdk-slim
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /app/backend-service
 
 # Install necessary dependencies for building the app (optional, for debugging)
 RUN apt-get update && apt-get install -y maven

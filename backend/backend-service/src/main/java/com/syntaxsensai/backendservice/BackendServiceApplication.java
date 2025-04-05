@@ -1,4 +1,4 @@
-package com.syntaxsenai.backendservice;
+package com.syntaxsensai.backendservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class BackendServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(BackendServiceApplication.class, args);
     }
-    
 }
