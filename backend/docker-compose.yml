@@ -26,6 +26,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sytaxsensai-db
       SPRING_DATASOURCE_USERNAME: syntaxsensai
       SPRING_DATASOURCE_PASSWORD: dbpassword
+      SERVER_PORT: 7012
     ports:
       - "7012:7012"
     networks:
