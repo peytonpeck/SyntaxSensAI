@@ -1,5 +1,8 @@
 package com.syntaxsensai.backendservice.configuration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.syntaxsensai.backendservice.dto.ErrorDTO;
 import com.syntaxsensai.backendservice.exception.SyntaxSensaiEmailAlreadyUsedException;
 import com.syntaxsensai.backendservice.exception.SyntaxSensaiInvalidCredentialsException;
 import org.springframework.http.HttpStatus;
@@ -12,25 +15,39 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     
+    private ObjectMapper objectMapper = new ObjectMapper();
+    
     @ExceptionHandler({SyntaxSensaiInvalidCredentialsException.class, SyntaxSensaiEmailAlreadyUsedException.class})
     public ResponseEntity<String> handleBadCredentials(Exception ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        ErrorDTO dto = new ErrorDTO("Bad Request", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorToString(dto));
     }
     
     // Handle generic validation errors
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleValidation(MethodArgumentNotValidException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Validation error: " + ex.getMessage());
+        ErrorDTO dto = new ErrorDTO("Validation Error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorToString(dto));
     }
     
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        ErrorDTO dto = new ErrorDTO("Not Found", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorToString(dto));
     }
     
     // Fallback for all other exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleOtherExceptions(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong in the server.");
+        ErrorDTO dto = new ErrorDTO("Internal Server Error", "Something went wrong in the server.");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorToString(dto));
+    }
+    
+    private String errorToString(ErrorDTO dto) {
+        try {
+            return objectMapper.writeValueAsString(dto);
+        } catch (JsonProcessingException e) {
+            return "{\"message\":\"Something went wrong when parsing exception\",\"details\":\"Unknown error occurred when parsing exception.\"}";
+        }
     }
 }

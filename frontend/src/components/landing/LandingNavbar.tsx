@@ -8,13 +8,11 @@ import {
 import { Link } from "@tanstack/react-router";
 
 export const LandingNavbar: FC = () => (
-  <header className="sticky border-b-[1px] top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background">
+  <header className="sticky flex items-center h-[3rem] border-b-[1px] top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background">
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link to="/login">
-            <NavigationMenuLink>Login</NavigationMenuLink>
-          </Link>
+          <Link to="/login">Login</Link>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

@@ -1,17 +1,14 @@
-import { LoginForm } from "@/components/LoginForm";
 import { UnauthenticatedLayout } from "@/components/landing/UnauthenticatedLayout";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/login")({
-  component: Login,
+export const Route = createFileRoute("/forgot-password")({
+  component: Register,
 });
 
-function Login() {
+function Register() {
   return (
     <UnauthenticatedLayout>
-      <div className="w-full max-w-sm">
-        <LoginForm />
-      </div>
+      <div className="w-full max-w-sm"></div>
     </UnauthenticatedLayout>
   );
 }
