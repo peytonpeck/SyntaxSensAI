@@ -18,6 +18,9 @@ import { Route as AppRouteImport } from './routes/app/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as AppIndexImport } from './routes/app/index'
 import { Route as AppDashboardImport } from './routes/app/dashboard'
+import { Route as AppSettingsIndexImport } from './routes/app/settings/index'
+import { Route as AppLessonsIndexImport } from './routes/app/lessons/index'
+import { Route as AppSettingsSubscriptionsImport } from './routes/app/settings/subscriptions'
 
 // Create/Update Routes
 
@@ -60,6 +63,24 @@ const AppIndexRoute = AppIndexImport.update({
 const AppDashboardRoute = AppDashboardImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppSettingsIndexRoute = AppSettingsIndexImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppLessonsIndexRoute = AppLessonsIndexImport.update({
+  id: '/lessons/',
+  path: '/lessons/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppSettingsSubscriptionsRoute = AppSettingsSubscriptionsImport.update({
+  id: '/settings/subscriptions',
+  path: '/settings/subscriptions',
   getParentRoute: () => AppRouteRoute,
 } as any)
 
@@ -116,6 +137,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexImport
       parentRoute: typeof AppRouteImport
     }
+    '/app/settings/subscriptions': {
+      id: '/app/settings/subscriptions'
+      path: '/settings/subscriptions'
+      fullPath: '/app/settings/subscriptions'
+      preLoaderRoute: typeof AppSettingsSubscriptionsImport
+      parentRoute: typeof AppRouteImport
+    }
+    '/app/lessons/': {
+      id: '/app/lessons/'
+      path: '/lessons'
+      fullPath: '/app/lessons'
+      preLoaderRoute: typeof AppLessonsIndexImport
+      parentRoute: typeof AppRouteImport
+    }
+    '/app/settings/': {
+      id: '/app/settings/'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsIndexImport
+      parentRoute: typeof AppRouteImport
+    }
   }
 }
 
@@ -124,11 +166,17 @@ declare module '@tanstack/react-router' {
 interface AppRouteRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppSettingsSubscriptionsRoute: typeof AppSettingsSubscriptionsRoute
+  AppLessonsIndexRoute: typeof AppLessonsIndexRoute
+  AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppIndexRoute: AppIndexRoute,
+  AppSettingsSubscriptionsRoute: AppSettingsSubscriptionsRoute,
+  AppLessonsIndexRoute: AppLessonsIndexRoute,
+  AppSettingsIndexRoute: AppSettingsIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
@@ -143,6 +191,9 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/': typeof AppIndexRoute
+  '/app/settings/subscriptions': typeof AppSettingsSubscriptionsRoute
+  '/app/lessons': typeof AppLessonsIndexRoute
+  '/app/settings': typeof AppSettingsIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -152,6 +203,9 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app': typeof AppIndexRoute
+  '/app/settings/subscriptions': typeof AppSettingsSubscriptionsRoute
+  '/app/lessons': typeof AppLessonsIndexRoute
+  '/app/settings': typeof AppSettingsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -163,6 +217,9 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/': typeof AppIndexRoute
+  '/app/settings/subscriptions': typeof AppSettingsSubscriptionsRoute
+  '/app/lessons/': typeof AppLessonsIndexRoute
+  '/app/settings/': typeof AppSettingsIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -175,6 +232,9 @@ export interface FileRouteTypes {
     | '/register'
     | '/app/dashboard'
     | '/app/'
+    | '/app/settings/subscriptions'
+    | '/app/lessons'
+    | '/app/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -183,6 +243,9 @@ export interface FileRouteTypes {
     | '/register'
     | '/app/dashboard'
     | '/app'
+    | '/app/settings/subscriptions'
+    | '/app/lessons'
+    | '/app/settings'
   id:
     | '__root__'
     | '/'
@@ -192,6 +255,9 @@ export interface FileRouteTypes {
     | '/register'
     | '/app/dashboard'
     | '/app/'
+    | '/app/settings/subscriptions'
+    | '/app/lessons/'
+    | '/app/settings/'
   fileRoutesById: FileRoutesById
 }
 
@@ -235,7 +301,10 @@ export const routeTree = rootRoute
       "filePath": "app/route.tsx",
       "children": [
         "/app/dashboard",
-        "/app/"
+        "/app/",
+        "/app/settings/subscriptions",
+        "/app/lessons/",
+        "/app/settings/"
       ]
     },
     "/forgot-password": {
@@ -253,6 +322,18 @@ export const routeTree = rootRoute
     },
     "/app/": {
       "filePath": "app/index.tsx",
+      "parent": "/app"
+    },
+    "/app/settings/subscriptions": {
+      "filePath": "app/settings/subscriptions.tsx",
+      "parent": "/app"
+    },
+    "/app/lessons/": {
+      "filePath": "app/lessons/index.tsx",
+      "parent": "/app"
+    },
+    "/app/settings/": {
+      "filePath": "app/settings/index.tsx",
       "parent": "/app"
     }
   }

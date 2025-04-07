@@ -35,7 +35,7 @@ function App() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
+      <main className="w-[100%]">
         <Outlet />
       </main>
     </SidebarProvider>
