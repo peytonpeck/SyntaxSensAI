@@ -63,6 +63,11 @@ const LessonPlan = {
         method: "GET",
       }
     ),
+  createLessonPlan: async (body: { essayContent: string }) =>
+    await apiFetch<LessonPlan>("/api/lesson-plan", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
 };
 
 export const Api = {

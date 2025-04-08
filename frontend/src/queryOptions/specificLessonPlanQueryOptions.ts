@@ -1,11 +1,11 @@
 import { Api } from "@/api";
 import { queryOptions } from "@tanstack/react-query";
 
-export const lessonPlanQueryOptionsKey = "specificLessonPlan";
+export const specificLessonPlanQueryOptionsKey = "specificLessonPlan";
 
 export function specificLessonPlanQueryOptions(lessonPlanId: string) {
   return queryOptions({
-    queryKey: [lessonPlanQueryOptionsKey, lessonPlanId],
+    queryKey: [specificLessonPlanQueryOptionsKey, lessonPlanId],
     queryFn: async ({ queryKey }) => {
       const result = await Api.LessonPlan.getLessonPlans(queryKey[1]);
       return result[0];

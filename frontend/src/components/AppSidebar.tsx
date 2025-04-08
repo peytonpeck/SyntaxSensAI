@@ -66,7 +66,9 @@ export const AppSidebar: FC = () => {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Past Lessons</SidebarGroupLabel>
+          {(!lessons || lessons.length > 0) && (
+            <SidebarGroupLabel>Past Lessons</SidebarGroupLabel>
+          )}
           <SidebarGroupContent>
             <SidebarMenu>
               {(!lessons || isLoadingLessons) && (

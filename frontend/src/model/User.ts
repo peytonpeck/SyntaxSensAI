@@ -4,4 +4,5 @@ export type User = {
   lastName: string;
   email: string;
   token?: string;
+  characterCredits: number;
 };

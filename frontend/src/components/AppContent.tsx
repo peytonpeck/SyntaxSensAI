@@ -93,10 +93,14 @@ export const AppContent: FC<PropsWithChildren<Props>> = ({
         </DropdownMenu>
       </header>
       <main
-        className={cn("p-4", className, {
-          "w-[100vw]": isMobile || !sidebar.open,
-          "w-[calc(100vw-16rem)]": !isMobile && sidebar.open,
-        })}
+        className={cn(
+          "p-4 transition-[width] duration-200 ease-linear",
+          className,
+          {
+            "w-[100vw]": isMobile || !sidebar.open,
+            "w-[calc(100vw-16rem)]": !isMobile && sidebar.open,
+          }
+        )}
       >
         {children}
       </main>
