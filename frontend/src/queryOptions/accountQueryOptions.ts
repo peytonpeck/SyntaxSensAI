@@ -1,12 +1,13 @@
 import { Api } from "@/api";
+import { LOCAL_STORAGE_TOKEN_KEY } from "@/lib/constants";
 import { queryOptions } from "@tanstack/react-query";
 
 export const accountQueryOptionsKey = "account";
 
-export function accountQueryOptions(token: string | null) {
+export function accountQueryOptions() {
   return queryOptions({
-    queryKey: [accountQueryOptionsKey, token],
-    queryFn: ({ queryKey }) => Api.User.account(queryKey[1] as string),
-    enabled: !!token,
+    queryKey: [accountQueryOptionsKey],
+    queryFn: () => Api.User.account(),
+    enabled: !!localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY),
   });
 }

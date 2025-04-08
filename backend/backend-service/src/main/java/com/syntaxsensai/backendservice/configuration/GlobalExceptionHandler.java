@@ -3,15 +3,18 @@ package com.syntaxsensai.backendservice.configuration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.syntaxsensai.backendservice.dto.ErrorDTO;
+import com.syntaxsensai.backendservice.exception.SyntaxSensaiDataNotFoundException;
 import com.syntaxsensai.backendservice.exception.SyntaxSensaiEmailAlreadyUsedException;
 import com.syntaxsensai.backendservice.exception.SyntaxSensaiInsufficientFundsException;
 import com.syntaxsensai.backendservice.exception.SyntaxSensaiInvalidCredentialsException;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @ControllerAdvice
@@ -27,8 +30,8 @@ public class GlobalExceptionHandler {
     }
     
     // Handle generic validation errors
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleValidation(MethodArgumentNotValidException ex) {
+    @ExceptionHandler({MethodArgumentNotValidException.class, MethodArgumentTypeMismatchException.class})
+    public ResponseEntity<String> handleValidation(Exception ex) {
         ErrorDTO dto = new ErrorDTO("Validation Error", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorToString(dto));
     }
@@ -42,6 +45,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AuthorizationDeniedException.class)
     public ResponseEntity<Object> handleAuthorizationDeniedException(AuthorizationDeniedException ex) {
         ErrorDTO dto = new ErrorDTO("Access Denied", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorToString(dto));
+    }
+    
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<Object> handleExpiredJwtException(ExpiredJwtException ex) {
+        ErrorDTO dto = new ErrorDTO("Session Expired", ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorToString(dto));
     }
     

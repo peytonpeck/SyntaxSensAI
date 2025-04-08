@@ -12,26 +12,39 @@ import {
   SidebarMenuItem,
   SidebarTrigger,
 } from "./ui/sidebar";
-import { Home } from "lucide-react";
+import { ArrowRight, GraduationCap, Home, Loader, Plus } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import type { Lesson } from "@/model/Lesson";
+import { useQuery } from "@tanstack/react-query";
+import { lessonPlanQueryOptions } from "@/queryOptions/lessonPlanQueryOptions";
+import { Skeleton } from "./ui/skeleton";
+import syntaxSensaiLogo from "../assets/syntaxsensailogo.png";
 
 const items = [
+  {
+    title: "New Lesson",
+    url: "/app/lessons/new",
+    icon: Plus,
+  },
   {
     title: "Dashboard",
     url: "/app/dashboard",
     icon: Home,
   },
+  {
+    title: "Lessons",
+    url: "/app/lessons",
+    icon: GraduationCap,
+  },
 ];
 export const AppSidebar: FC = () => {
-  const lessons: Lesson[] = [];
+  const { data: lessons, isPending: isLoadingLessons } = useQuery(
+    lessonPlanQueryOptions()
+  );
 
   return (
     <Sidebar>
-      <SidebarHeader className="font-bold text-2xl">
-        <span>
-          Syntax Sens<span className="text-red-500">AI</span>
-        </span>
+      <SidebarHeader className="font-bold text-2xl flex justify-center items-center w-full">
+        <img className="w-50" src={syntaxSensaiLogo}></img>
         {<SidebarTrigger className="absolute top-0 right-0" />}
       </SidebarHeader>
       <SidebarContent>
@@ -53,18 +66,36 @@ export const AppSidebar: FC = () => {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Lessons</SidebarGroupLabel>
+          <SidebarGroupLabel>Past Lessons</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {lessons.map((lesson) => (
-                <SidebarMenuItem key={lesson.id}>
-                  <SidebarMenuButton asChild>
-                    <Link to={item.url}>
-                      <span>{lesson.name}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {(!lessons || isLoadingLessons) && (
+                <>
+                  <Skeleton className="h-4 w-40 ml-2" />
+                  <Skeleton className="h-4 w-36 ml-2" />
+                  <Skeleton className="h-4 w-38 ml-2" />
+                  <Skeleton className="h-4 w-42 ml-2" />
+                  <Skeleton className="h-4 w-34 ml-2" />
+                </>
+              )}
+              {lessons &&
+                lessons
+                  .map((lesson) => ({
+                    ...lesson,
+                    url: `/app/lessons/${lesson.lessonPlanId}`,
+                  }))
+                  .map((lesson) => (
+                    <SidebarMenuItem key={lesson.lessonPlanId}>
+                      <SidebarMenuButton asChild>
+                        <Link to={lesson.url} className="flex justify-between">
+                          <span className="h-5 w-full text-ellipsis overflow-hidden">
+                            {lesson.summary}
+                          </span>
+                          <ArrowRight />
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

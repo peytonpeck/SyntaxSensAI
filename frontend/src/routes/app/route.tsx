@@ -19,7 +19,7 @@ export const Route = createFileRoute("/app")({
     }
 
     try {
-      await queryClient.ensureQueryData(accountQueryOptions(token));
+      await queryClient.ensureQueryData(accountQueryOptions());
     } catch (err) {
       throw redirect({
         to: "/login",

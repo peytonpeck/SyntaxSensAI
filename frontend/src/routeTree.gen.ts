@@ -21,6 +21,8 @@ import { Route as AppDashboardImport } from './routes/app/dashboard'
 import { Route as AppSettingsIndexImport } from './routes/app/settings/index'
 import { Route as AppLessonsIndexImport } from './routes/app/lessons/index'
 import { Route as AppSettingsSubscriptionsImport } from './routes/app/settings/subscriptions'
+import { Route as AppLessonsNewIndexImport } from './routes/app/lessons/new/index'
+import { Route as AppLessonsLessonPlanIdIndexImport } from './routes/app/lessons/$lessonPlanId/index'
 
 // Create/Update Routes
 
@@ -83,6 +85,19 @@ const AppSettingsSubscriptionsRoute = AppSettingsSubscriptionsImport.update({
   path: '/settings/subscriptions',
   getParentRoute: () => AppRouteRoute,
 } as any)
+
+const AppLessonsNewIndexRoute = AppLessonsNewIndexImport.update({
+  id: '/lessons/new/',
+  path: '/lessons/new/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppLessonsLessonPlanIdIndexRoute =
+  AppLessonsLessonPlanIdIndexImport.update({
+    id: '/lessons/$lessonPlanId/',
+    path: '/lessons/$lessonPlanId/',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -158,6 +173,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsIndexImport
       parentRoute: typeof AppRouteImport
     }
+    '/app/lessons/$lessonPlanId/': {
+      id: '/app/lessons/$lessonPlanId/'
+      path: '/lessons/$lessonPlanId'
+      fullPath: '/app/lessons/$lessonPlanId'
+      preLoaderRoute: typeof AppLessonsLessonPlanIdIndexImport
+      parentRoute: typeof AppRouteImport
+    }
+    '/app/lessons/new/': {
+      id: '/app/lessons/new/'
+      path: '/lessons/new'
+      fullPath: '/app/lessons/new'
+      preLoaderRoute: typeof AppLessonsNewIndexImport
+      parentRoute: typeof AppRouteImport
+    }
   }
 }
 
@@ -169,6 +198,8 @@ interface AppRouteRouteChildren {
   AppSettingsSubscriptionsRoute: typeof AppSettingsSubscriptionsRoute
   AppLessonsIndexRoute: typeof AppLessonsIndexRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
+  AppLessonsLessonPlanIdIndexRoute: typeof AppLessonsLessonPlanIdIndexRoute
+  AppLessonsNewIndexRoute: typeof AppLessonsNewIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
@@ -177,6 +208,8 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppSettingsSubscriptionsRoute: AppSettingsSubscriptionsRoute,
   AppLessonsIndexRoute: AppLessonsIndexRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
+  AppLessonsLessonPlanIdIndexRoute: AppLessonsLessonPlanIdIndexRoute,
+  AppLessonsNewIndexRoute: AppLessonsNewIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
@@ -194,6 +227,8 @@ export interface FileRoutesByFullPath {
   '/app/settings/subscriptions': typeof AppSettingsSubscriptionsRoute
   '/app/lessons': typeof AppLessonsIndexRoute
   '/app/settings': typeof AppSettingsIndexRoute
+  '/app/lessons/$lessonPlanId': typeof AppLessonsLessonPlanIdIndexRoute
+  '/app/lessons/new': typeof AppLessonsNewIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -206,6 +241,8 @@ export interface FileRoutesByTo {
   '/app/settings/subscriptions': typeof AppSettingsSubscriptionsRoute
   '/app/lessons': typeof AppLessonsIndexRoute
   '/app/settings': typeof AppSettingsIndexRoute
+  '/app/lessons/$lessonPlanId': typeof AppLessonsLessonPlanIdIndexRoute
+  '/app/lessons/new': typeof AppLessonsNewIndexRoute
 }
 
 export interface FileRoutesById {
@@ -220,6 +257,8 @@ export interface FileRoutesById {
   '/app/settings/subscriptions': typeof AppSettingsSubscriptionsRoute
   '/app/lessons/': typeof AppLessonsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
+  '/app/lessons/$lessonPlanId/': typeof AppLessonsLessonPlanIdIndexRoute
+  '/app/lessons/new/': typeof AppLessonsNewIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -235,6 +274,8 @@ export interface FileRouteTypes {
     | '/app/settings/subscriptions'
     | '/app/lessons'
     | '/app/settings'
+    | '/app/lessons/$lessonPlanId'
+    | '/app/lessons/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -246,6 +287,8 @@ export interface FileRouteTypes {
     | '/app/settings/subscriptions'
     | '/app/lessons'
     | '/app/settings'
+    | '/app/lessons/$lessonPlanId'
+    | '/app/lessons/new'
   id:
     | '__root__'
     | '/'
@@ -258,6 +301,8 @@ export interface FileRouteTypes {
     | '/app/settings/subscriptions'
     | '/app/lessons/'
     | '/app/settings/'
+    | '/app/lessons/$lessonPlanId/'
+    | '/app/lessons/new/'
   fileRoutesById: FileRoutesById
 }
 
@@ -304,7 +349,9 @@ export const routeTree = rootRoute
         "/app/",
         "/app/settings/subscriptions",
         "/app/lessons/",
-        "/app/settings/"
+        "/app/settings/",
+        "/app/lessons/$lessonPlanId/",
+        "/app/lessons/new/"
       ]
     },
     "/forgot-password": {
@@ -334,6 +381,14 @@ export const routeTree = rootRoute
     },
     "/app/settings/": {
       "filePath": "app/settings/index.tsx",
+      "parent": "/app"
+    },
+    "/app/lessons/$lessonPlanId/": {
+      "filePath": "app/lessons/$lessonPlanId/index.tsx",
+      "parent": "/app"
+    },
+    "/app/lessons/new/": {
+      "filePath": "app/lessons/new/index.tsx",
       "parent": "/app"
     }
   }
