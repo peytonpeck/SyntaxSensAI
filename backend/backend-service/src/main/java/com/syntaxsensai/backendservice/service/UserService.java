@@ -2,11 +2,11 @@ package com.syntaxsensai.backendservice.service;
 
 import com.syntaxsensai.backendservice.dto.UserDTO;
 import com.syntaxsensai.backendservice.mapper.UserMapper;
-import com.syntaxsensai.backendservice.model.User;
 import com.syntaxsensai.backendservice.repository.UserRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.syntaxsensai.backendservice.util.Utils;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -19,10 +19,10 @@ public class UserService {
     }
     
     public UserDTO getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        
-        User currentUser = (User) authentication.getPrincipal();
-        
-        return this.userMapper.toDTO(currentUser);
+        return Utils.getContextUser();
+    }
+    
+    public void changeUserWordCredit(UUID userId, Integer amount) {
+        userRepository.addWordCredit(userId, amount);
     }
 }

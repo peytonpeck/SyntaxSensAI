@@ -41,7 +41,8 @@ public class AuthenticationService {
             throw new SyntaxSensaiEmailAlreadyUsedException();
         }
         
-        User user = new User(input.getFirstName(), input.getLastName(), input.getEmail(), passwordEncoder.encode(input.getPassword()));
+        User user = new User(input.getFirstName(), input.getLastName(), input.getEmail(),
+                passwordEncoder.encode(input.getPassword()), 0);
         
         userRepository.save(user);
         

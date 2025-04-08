@@ -1,5 +1,8 @@
 package com.syntaxsensai.backendservice.configuration;
 
+import com.syntaxsensai.backendservice.dto.UserDTO;
+import com.syntaxsensai.backendservice.mapper.UserMapper;
+import com.syntaxsensai.backendservice.model.User;
 import com.syntaxsensai.backendservice.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,15 +27,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final UserMapper userMapper;
     
     public JwtAuthenticationFilter(
             JwtService jwtService,
             UserDetailsService userDetailsService,
-            HandlerExceptionResolver handlerExceptionResolver
+            HandlerExceptionResolver handlerExceptionResolver,
+            UserMapper userMapper
     ) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
         this.handlerExceptionResolver = handlerExceptionResolver;
+        this.userMapper = userMapper;
     }
     
     @Override
@@ -58,8 +64,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
                 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
+                    UserDTO user = userMapper.toDTO((User) userDetails);
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userDetails,
+                            user,
                             null,
                             userDetails.getAuthorities()
                     );
