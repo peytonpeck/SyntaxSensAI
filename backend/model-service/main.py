@@ -20,8 +20,9 @@ app.add_middleware(
 def load_model():
     from transformers import AutoTokenizer, AutoModelForCausalLM
 
-    tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.2-1B-Instruct")
-    model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-1B-Instruct", device_map="auto")
+    model_key = "meta-llama/Llama-4-Scout-17B-16E" # "meta-llama/Llama-3.2-1B-Instruct"
+    tokenizer = AutoTokenizer.from_pretrained(model_key)
+    model = AutoModelForCausalLM.from_pretrained(model_key, device_map="auto")
 
     return [tokenizer, model]
 

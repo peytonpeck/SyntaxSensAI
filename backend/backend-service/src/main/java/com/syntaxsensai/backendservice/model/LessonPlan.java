@@ -35,6 +35,6 @@ public class LessonPlan {
     @Column(nullable = false, name = "summary")
     private String summary;
     
-    @Column(nullable = false, name = "essay_content")
+    @Column(nullable = false, name = "essay_content", columnDefinition = "TEXT")
     private String essayContent;
 }
