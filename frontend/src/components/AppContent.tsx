@@ -32,12 +32,14 @@ const links = [
 
 type Props = React.ComponentProps<"main"> & {
   title: ReactNode;
+  excludeMainPadding?: boolean;
 };
 
 export const AppContent: FC<PropsWithChildren<Props>> = ({
   title,
   children,
   className,
+  excludeMainPadding = false,
 }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -50,9 +52,13 @@ export const AppContent: FC<PropsWithChildren<Props>> = ({
     navigate({ to: "/" });
   };
 
+  const headerHeight = "3.5rem";
+
   return (
     <div className="h-[100vh] flex flex-col">
-      <header className="flex p-2 w-full items-center justify-between border-b-sidebar-border border-b-1">
+      <header
+        className={`flex p-2 w-full items-center justify-between border-b-sidebar-border border-b-1 h-[${headerHeight}]`}
+      >
         <div>
           {isMobile || (!sidebar.open && <SidebarTrigger />)}
           <span className="ml-1 text-2xl">{title}</span>
@@ -94,11 +100,12 @@ export const AppContent: FC<PropsWithChildren<Props>> = ({
       </header>
       <main
         className={cn(
-          "p-4 transition-[width] duration-200 ease-linear",
+          `transition-[width] duration-200 ease-linear flex-1`,
           className,
           {
             "w-[100vw]": isMobile || !sidebar.open,
             "w-[calc(100vw-16rem)]": !isMobile && sidebar.open,
+            "p-4": !excludeMainPadding,
           }
         )}
       >
