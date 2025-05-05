@@ -1,4 +1,5 @@
 import { AppContent } from "@/components/AppContent";
+import { ErrorSidebar } from "@/components/learning/ErrorSidebar";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -46,13 +47,13 @@ function RouteComponent() {
           name: "Subject Agreement",
           questions: [
             {
-              questionId: "1",
+              questionId: "questionId1",
               lessonId: "lesson1",
               question: "Which verb agrees with 'The dog'?",
               options: ["run", "runs", "running", "ran"],
             },
             {
-              questionId: "2",
+              questionId: "questionId2",
               lessonId: "lesson1",
               question:
                 "The sentence 'He walk to school' is grammatically correct.",
@@ -78,13 +79,13 @@ function RouteComponent() {
           name: "Subject Agreement",
           questions: [
             {
-              questionId: "1",
+              questionId: "questionId3",
               lessonId: "lesson2",
               question: "Which verb agrees with 'The dog'?",
               options: ["run", "runs", "running", "ran"],
             },
             {
-              questionId: "2",
+              questionId: "questionId4",
               lessonId: "lesson2",
               question:
                 "The sentence 'He walk to school' is grammatically correct.",
@@ -109,14 +110,14 @@ function RouteComponent() {
           name: "Article Usage",
           questions: [
             {
-              questionId: "1",
+              questionId: "questionId5",
               lessonId: "lesson3",
               question:
                 "Which article correctly completes the sentence: 'She adopted ___ unusual pet.'",
               options: ["a", "an", "the", "no article"],
             },
             {
-              questionId: "2",
+              questionId: "questionId6",
               lessonId: "lesson3",
               question: "True or False: 'a elephant' is grammatically correct.",
               options: ["True", "False"],
@@ -199,47 +200,22 @@ function RouteComponent() {
   return (
     <AppContent title={lessonPlan.summary} excludeMainPadding={true}>
       <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel className="p-4" minSize={50}>
-          <div>{editorContent}</div>
+        <ResizablePanel
+          className="flex justify-center bg-gray-100 min-h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)] !overflow-auto no-scrollbar"
+          minSize={50}
+        >
+          <div className="mx-8 my-4 py-4 px-4 bg-white border-gray-300 border-1 rounded-none min-h-[calc(100vh-3.5rem)] h-fit max-w-[50rem]">
+            {editorContent}
+          </div>
         </ResizablePanel>
         {selectedError && (
           <>
             <ResizableHandle withHandle />
             <ResizablePanel className="p-4" defaultSize={33} minSize={20}>
-              <header className="font-bold text-xl">
-                {capitalizeFirstLetter(selectedError.type)} Error{" "}
-                {selectedError.lesson.name}
-              </header>
-              <p>
-                <CheckIcon className="inline w-4 text-green-700 font-bold" />{" "}
-                {selectedError.lesson.explanation}
-              </p>
-              <Label className="mt-4">Master This Subject</Label>
-              {selectedError.lesson.questions.map((question, index) => (
-                <div key={`question-${index}`} className="mb-2">
-                  <div>
-                    {index + 1}) {question.question}
-                  </div>
-                  <div className="grid grid-cols-2 grid-rows-2 gap-1">
-                    {question.options.map((option, index) => (
-                      <button
-                        type="button"
-                        key={`option-${index}`}
-                        className="bg-gray-200 hover:bg-gray-300 rounded-[var(--radius-sm)] py-2 px-4"
-                      >
-                        {option}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
-              <Button disabled className="w-full" color="primary">
-                Correct Error
-              </Button>
-              <span className="text-sm text-gray-700">
-                SyntaxSensAI will allow you to correct this error once you've
-                completed all the questions
-              </span>
+              <ErrorSidebar
+                key={selectedError.essayErrorId}
+                error={selectedError}
+              />
             </ResizablePanel>
           </>
         )}
