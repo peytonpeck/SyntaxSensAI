@@ -100,7 +100,7 @@ export const AppContent: FC<PropsWithChildren<Props>> = ({
       </header>
       <main
         className={cn(
-          `transition-[width] duration-200 ease-linear flex-1`,
+          `transition-[width] duration-200 ease-linear flex-1 bg-gray-100`,
           className,
           {
             "w-[100vw]": isMobile || !sidebar.open,

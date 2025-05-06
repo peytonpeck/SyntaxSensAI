@@ -211,7 +211,11 @@ function RouteComponent() {
         {selectedError && (
           <>
             <ResizableHandle withHandle />
-            <ResizablePanel className="p-4" defaultSize={33} minSize={20}>
+            <ResizablePanel
+              className="p-4 bg-white"
+              defaultSize={33}
+              minSize={20}
+            >
               <ErrorSidebar
                 key={selectedError.essayErrorId}
                 error={selectedError}

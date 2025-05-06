@@ -6,7 +6,7 @@ type Props = {
 };
 
 export const LessonPlanCard: FC<Props> = ({ lessonPlan }) => (
-  <div className="bg-accent border-border border-1 rounded-[var(--radius-sm)] p-2">
+  <div className="bg-white border-border border-1 rounded-[var(--radius-sm)] p-2">
     <header className="text-xl font-medium">{lessonPlan.summary}</header>
     <p>{lessonPlan.essayContent}</p>
   </div>

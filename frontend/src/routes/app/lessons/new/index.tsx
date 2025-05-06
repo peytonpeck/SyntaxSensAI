@@ -73,7 +73,7 @@ function RouteComponent() {
           </p>
         </div>
         <Textarea
-          className="min-h-30 max-h-[calc(100vh-12rem)] resize-none w-full mt-10"
+          className="min-h-30 max-h-[calc(100vh-12rem)] resize-none w-full mt-10 bg-white"
           placeholder="Type your essay here."
           value={essay}
           onChange={(e) => setEssay(e.target.value)}
